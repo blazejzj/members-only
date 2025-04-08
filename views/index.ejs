@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Members-only</title>
+    </head>
+    <body>
+        <%- include("partials/header") %> <% if (!user) { %>
+        <h1>Sign up!</h1>
+        <a href="/sign-up">Here!</a>
+        <h1>Have an account?</h1>
+        <a href="/log-in">Log in</a>
+        <% } else { %>
+        <a href="/log-out">Log out</a>
+        <h2>Welcome <%= user.username%></h2>
+        <%- include("partials/new-message") %> <% } %>
+    </body>
+</html>
