@@ -27,8 +27,6 @@ exports.verifyNewUser = [
         .withMessage(nameLenghErr),
     body("password").isLength({ min: 8 }).withMessage(passwordLengthErr),
     body("confirmPassword")
-        .isLength({ min: 8 })
-        .withMessage(passwordLengthErr)
         .custom((value, { req }) => value === req.body.password)
         .withMessage(passwordDontMatchError),
 ];

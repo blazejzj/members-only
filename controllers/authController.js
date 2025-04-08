@@ -68,3 +68,12 @@ exports.logout = (req, res, next) => {
         res.redirect("/");
     });
 };
+
+exports.makeAdminPost = async (req, res) => {
+    if (req.body.beAdmin) {
+        const userId = req.user.id;
+        await db.makeUserAdminById(userId);
+    }
+
+    res.redirect("/");
+};

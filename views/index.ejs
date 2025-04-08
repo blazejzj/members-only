@@ -7,13 +7,38 @@
     </head>
     <body>
         <%- include("partials/header") %> <% if (!user) { %>
-        <h1>Sign up!</h1>
+        <h1>
+            Sign up! This way you'll be able to view the messsages and create
+            them!
+        </h1>
         <a href="/sign-up">Here!</a>
         <h1>Have an account?</h1>
         <a href="/log-in">Log in</a>
         <% } else { %>
         <a href="/log-out">Log out</a>
         <h2>Welcome <%= user.username%></h2>
-        <%- include("partials/new-message") %> <% } %>
+        <%- include("partials/new-message") %> <% if (error && error.length > 0)
+        { %>
+        <p style="color: red"><%= error[0] %></p>
+        <% } %> <% if (user.membership === 0) { %> <%-
+        include("partials/membership") %> <% } %> <% if (user.membership === 1)
+        { %> <% messages.forEach((message) => { %>
+        <div style="border: 1px solid black">
+            <p>Title: <%= message.title %></p>
+            <p>Text: <%= message.text %></p>
+            <p>Created at: <%= message.created_at %></p>
+            <p>Author: <%= message.username %></p>
+        </div>
+        <% if (user && user.admin) { %>
+        <form action="/message/delete-message/<%= message.id %>" method="POST">
+            <button type="submit">Delete</button>
+        </form>
+        <% } %> <% })} else { %> <% messages.forEach((message) => { %>
+        <div style="border: 1px solid black">
+            <p>Title: <%= message.title %></p>
+            <p>Text: <%= message.text %></p>
+        </div>
+        <% })%> <% } %> <% } %> <% if (user && !user.admin) { %> <%-
+        include("partials/make-admin") %> <% } %>
     </body>
 </html>

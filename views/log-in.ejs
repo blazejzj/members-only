@@ -3,9 +3,16 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Logg inn</title>
+        <title><%= title %></title>
     </head>
     <body>
+        <% if (errors) { %>
+        <ul>
+            <% errors.forEach((error) => { %>
+            <li><%= error.path %> <%= error.msg %></li>
+
+            <% })} %>
+        </ul>
         <%- include("partials/header") %>
         <form action="/log-in" method="POST">
             <label for="username">Username: </label>

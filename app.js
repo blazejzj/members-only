@@ -5,6 +5,7 @@ const session = require("express-session");
 const passport = require("passport");
 const authRouter = require("./routes/authRouter");
 const messageRouter = require("./routes/messageRouter");
+const memberRouter = require("./routes/memberRouter");
 
 const app = express();
 
@@ -35,8 +36,9 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use("/message", messageRouter);
+app.use("/member-ship", memberRouter);
 app.use("/", authRouter);
-app.use("/new-message", messageRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

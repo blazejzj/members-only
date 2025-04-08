@@ -44,10 +44,59 @@ async function addNewMessage(title, text, username) {
     return result.rowCount;
 }
 
+async function updateUserToMember(id) {
+    const query = "UPDATE users SET membership = 1 WHERE id = $1";
+    const result = await pool.query(query, [id]);
+
+    if (result.rowCount > 0) {
+        return true;
+    }
+    return false;
+}
+
+async function getAllMessages() {
+    const query = `
+        SELECT 
+            m.id,
+            m.title,
+            m.text,
+            m.created_at,
+            u.username
+        FROM messages m
+        JOIN users u ON m.author = u.id
+        ORDER BY m.created_at DESC;
+    `;
+    const { rows } = await pool.query(query);
+    return rows;
+}
+
+async function getAllMessagesLessInfo() {
+    const query = "SELECT id, title, text FROM messages";
+    const { rows } = await pool.query(query);
+    return rows;
+}
+
+async function makeUserAdminById(id) {
+    const query = "UPDATE users SET admin = true WHERE id = $1";
+    const result = await pool.query(query, [id]);
+    return result;
+}
+
+async function deleteMessageById(id) {
+    const query = "DELETE FROM messages WHERE id = $1";
+    const result = await pool.query(query, [id]);
+    return result;
+}
+
 module.exports = {
     addUser,
     userNameExists,
     getUserByUsername,
     getUserById,
     addNewMessage,
+    updateUserToMember,
+    getAllMessages,
+    getAllMessagesLessInfo,
+    makeUserAdminById,
+    deleteMessageById,
 };
